@@ -1,0 +1,148 @@
+[project]
+name = "demucs"
+version = "4.1.0a2"
+description = "Music source separation in the waveform domain."
+authors = [
+    { name = "Alexandre Défossez", email = "defossez@fb.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8.0"
+license = { text = "MIT License" }
+keywords = ["audio", "music", "source separation", "machine learning"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+# Minimal dependencies for running demucs (without PyTorch)
+# Install PyTorch separately based on your hardware (CPU/CUDA)
+dependencies = [
+    "numpy<2.0",  # PyTorch 2.0.x requires numpy 1.x
+    "dora-search",
+    "einops",
+    "julius>=0.2.3",
+    "lameenc>=1.2",
+    "openunmix",
+    "pyyaml",
+    "tqdm>=4.36",
+    "soundfile",
+    "musdb>=0.4.0",
+]
+
+[project.optional-dependencies]
+# CPU-only installation (PyTorch CPU)
+cpu = [
+    "torch>=1.8.1",
+    "torchaudio>=0.8,<2.1",
+]
+
+# CUDA installation (install PyTorch with CUDA separately)
+# Use: uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+cuda = [
+    # PyTorch CUDA should be installed separately via:
+    # uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+]
+
+# Development dependencies (full requirements.txt)
+dev = [
+    "dora-search>=0.1.12",
+    "diffq>=0.2.1",
+    "einops",
+    "flake8",
+    "hydra-colorlog>=1.1",
+    "hydra-core>=1.1",
+    "julius>=0.2.3",
+    "lameenc>=1.2",
+    "museval>=0.4.0",
+    "musdb>=0.4.0",
+    "mypy",
+    "openunmix",
+    "pyyaml",
+    "submitit",
+    "tqdm>=4.36",
+    "treetable>=0.2.3",
+    "soundfile",
+]
+
+# Training dependencies
+train = [
+    "dora-search>=0.1.12",
+    "diffq>=0.2.1",
+    "hydra-colorlog>=1.1",
+    "hydra-core>=1.1",
+    "museval>=0.4.0",
+    "musdb>=0.4.0",
+    "submitit",
+    "treetable>=0.2.3",
+]
+
+# Testing dependencies
+test = [
+    "flake8",
+    "mypy",
+]
+
+# All dependencies including dev tools
+all = [
+    "dora-search>=0.1.12",
+    "diffq>=0.2.1",
+    "einops",
+    "flake8",
+    "hydra-colorlog>=1.1",
+    "hydra-core>=1.1",
+    "julius>=0.2.3",
+    "lameenc>=1.2",
+    "museval>=0.4.0",
+    "musdb>=0.4.0",
+    "mypy",
+    "openunmix",
+    "pyyaml",
+    "submitit",
+    "tqdm>=4.36",
+    "treetable>=0.2.3",
+    "soundfile",
+]
+
+[project.urls]
+Homepage = "https://github.com/facebookresearch/demucs"
+Repository = "https://github.com/facebookresearch/demucs"
+Documentation = "https://github.com/facebookresearch/demucs"
+
+[project.scripts]
+demucs = "demucs.separate:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["demucs"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+demucs = ["py.typed", "remote/*.yaml", "remote/files.txt"]
+
+[dependency-groups]
+dev = [
+    "flake8",
+    "mypy",
+]
+
+[tool.flake8]
+max-line-length = 100
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.yapf]
+column_limit = 100
+
